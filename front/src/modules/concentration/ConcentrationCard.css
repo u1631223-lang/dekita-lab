@@ -1,0 +1,59 @@
+.concentration-card {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  border: none;
+  border-radius: 18px;
+  background: linear-gradient(160deg, #f7f9ff 0%, #e6ecff 100%);
+  box-shadow: 0 12px 24px rgba(65, 85, 172, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Nunito', 'Segoe UI', sans-serif;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  cursor: pointer;
+}
+
+.concentration-card:disabled {
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+.concentration-card--face {
+  transform: translateY(-2px);
+}
+
+.concentration-card--matched {
+  background: linear-gradient(150deg, #fff3c4 0%, #ffe8a6 100%);
+  box-shadow: 0 16px 30px rgba(255, 200, 60, 0.35);
+}
+
+.concentration-card__face {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3em;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.concentration-card__rank {
+  font-size: clamp(1.9rem, 3vw, 2.4rem);
+}
+
+.concentration-card__suit {
+  font-size: clamp(1.5rem, 2.6vw, 1.9rem);
+}
+
+.concentration-card__back {
+  font-size: clamp(1.9rem, 2.6vw, 2.4rem);
+  color: #4d5ee0;
+}
+
+.concentration-card--red .concentration-card__face {
+  color: #d6455f;
+}
+
+.concentration-card--black .concentration-card__face {
+  color: #2d355d;
+}

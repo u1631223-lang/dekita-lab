@@ -8,6 +8,7 @@ const resources = {
         welcome: 'きょうは どの ゲームで あそぶ？',
         rhythm: 'リズムタップ',
         memory: 'ペアペアワールド',
+        concentration: 'しんけいすいじゃく',
         sequence: 'キラキラパターン',
         shape: 'かたちビルダー',
         cardSprint: 'カードスプリント',
@@ -46,6 +47,20 @@ const resources = {
       pair: {
         goal: 'おなじ えを そろえよう！',
         mistakes: 'まちがい'
+      },
+      concentration: {
+        goal: 'おなじ ランクを そろえよう！',
+        remaining: 'のこりのペア',
+        pairs: '{{found}} / {{total}} ペア',
+        mistakes: 'まちがい',
+        hint: 'ヒント',
+        suits: {
+          hearts: 'ハート',
+          diamonds: 'ダイヤ',
+          clubs: 'クラブ',
+          spades: 'スペード'
+        },
+        cardLabel: '{{rank}}の{{suit}}'
       },
       shape: {
         target: 'つぎは この かたち！'
@@ -106,6 +121,7 @@ const resources = {
         welcome: 'What shall we play today?',
         rhythm: 'Rhythm Tap',
         memory: 'Pair Match World',
+        concentration: 'Concentration',
         sequence: 'Sequence Spark',
         shape: 'Shape Builder',
         cardSprint: 'Card Sprint',
@@ -144,6 +160,20 @@ const resources = {
       pair: {
         goal: 'Match the pairs!',
         mistakes: 'Mistakes'
+      },
+      concentration: {
+        goal: 'Match the ranks!',
+        remaining: 'Pairs left',
+        pairs: '{{found}} / {{total}} pairs',
+        mistakes: 'Misses',
+        hint: 'Hint',
+        suits: {
+          hearts: 'hearts',
+          diamonds: 'diamonds',
+          clubs: 'clubs',
+          spades: 'spades'
+        },
+        cardLabel: '{{rank}} of {{suit}}'
       },
       shape: {
         target: 'Place this shape next!'

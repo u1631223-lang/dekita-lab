@@ -5,11 +5,41 @@ import { useSessionController } from '@app/session/SessionProvider';
 import { useAudioCue } from '@ui/hooks/useAudioCue';
 import { RewardToast } from '@ui/components/RewardToast';
 import { GameHud } from '@ui/components/GameHud';
-import { Card, CardSprintGameState } from './types';
+import { Card, CardSprintGameState, type CardValue } from './types';
 import { CardSprintRoundState } from './module';
-import { findPlayableCards, canPlayCard, getAILevelConfig } from './config';
+import { findPlayableCards, canPlayCard, getAILevelConfig, CARD_COLORS } from './config';
 import { decideAIAction, checkGameEnd, determineWinner } from './aiLogic';
 import './CardSprintScreen.css';
+
+const randomInt = (max: number) => Math.floor(Math.random() * max);
+
+const createPileCard = (): Card => {
+  const color = CARD_COLORS[randomInt(CARD_COLORS.length)];
+  const value = (randomInt(13) + 1) as CardValue;
+  return {
+    id: `pile-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+    color,
+    value
+  };
+};
+
+const buildFallbackPiles = (state: CardSprintGameState): CardSprintGameState => {
+  for (let attempt = 0; attempt < 12; attempt += 1) {
+    const candidateA = createPileCard();
+    const candidateB = createPileCard();
+    const playerChoices = findPlayableCards(state.playerHand, candidateA, candidateB).length;
+    const aiChoices = findPlayableCards(state.aiHand, candidateA, candidateB).length;
+    if (playerChoices > 0 || aiChoices > 0) {
+      return {
+        ...state,
+        pileA: candidateA,
+        pileB: candidateB,
+        lastMoveTime: Date.now()
+      };
+    }
+  }
+  return state;
+};
 
 export const CardSprintScreen = () => {
   const { currentRound, recordRound, lastRecommendation, rewardSchedule, endSession, roundState } =
@@ -81,29 +111,54 @@ export const CardSprintScreen = () => {
     if (playerMoves > 0 || aiMoves > 0) {
       return;
     }
-    if (gameState.deck.length === 0) {
-      return;
-    }
 
     let updated = false;
     setGameState((prev) => {
-      if (!prev || prev.deck.length === 0) return prev;
-      const updatedDeck = [...prev.deck];
-      const nextPileA = updatedDeck.shift() ?? null;
-      const nextPileB = updatedDeck.shift() ?? null;
+      if (!prev) return prev;
 
-      if (!nextPileA && !nextPileB) {
-        return prev;
+      if (prev.deck.length > 0) {
+        const updatedDeck = [...prev.deck];
+        const nextPileA = updatedDeck.shift() ?? null;
+        const nextPileB = updatedDeck.shift() ?? null;
+
+        if (!nextPileA && !nextPileB) {
+          return prev;
+        }
+
+        let nextState: CardSprintGameState = {
+          ...prev,
+          deck: updatedDeck,
+          pileA: nextPileA ?? prev.pileA,
+          pileB: nextPileB ?? prev.pileB,
+          lastMoveTime: Date.now()
+        };
+
+        const refreshedPlayerMoves = findPlayableCards(
+          nextState.playerHand,
+          nextState.pileA,
+          nextState.pileB
+        ).length;
+        const refreshedAiMoves = findPlayableCards(nextState.aiHand, nextState.pileA, nextState.pileB).length;
+
+        if (refreshedPlayerMoves === 0 && refreshedAiMoves === 0) {
+          const fallbackState = buildFallbackPiles(nextState);
+          if (fallbackState !== nextState) {
+            nextState = fallbackState;
+          }
+        }
+
+        if (nextState.pileA !== prev.pileA || nextState.pileB !== prev.pileB) {
+          updated = true;
+        }
+        return nextState;
       }
 
-      updated = true;
-      return {
-        ...prev,
-        deck: updatedDeck,
-        pileA: nextPileA ?? prev.pileA,
-        pileB: nextPileB ?? prev.pileB,
-        lastMoveTime: Date.now()
-      };
+      const fallbackState = buildFallbackPiles(prev);
+      if (fallbackState !== prev) {
+        updated = true;
+        return fallbackState;
+      }
+      return prev;
     });
 
     if (updated) {

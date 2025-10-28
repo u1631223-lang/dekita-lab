@@ -6,6 +6,7 @@ const config: AdaptiveConfig = {
   baseDifficulty: {
     rhythm: 'lv1',
     'pair-match': 'lv1',
+    concentration: 'lv1',
     'sequence-spark': 'lv1',
     'shape-builder': 'lv1',
     'card-sprint': 'lv1'
