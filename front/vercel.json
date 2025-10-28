@@ -2,13 +2,12 @@
   "version": 2,
   "builds": [
     {
-      "src": "front/package.json",
+      "src": "package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "front/dist"
+        "distDir": "dist"
       }
     }
   ],
-  "framework": "vite",
-  "outputDirectory": "front/dist"
+  "outputDirectory": "dist"
 }
