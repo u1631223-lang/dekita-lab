@@ -16,7 +16,7 @@ const computeSummary = (entries: RoundTelemetryEntry[]): SessionSummary => {
       averageReactionTime: 0,
       bestStreak: 0,
       totalRounds: 0,
-       reactionTrendMs: 0,
+      reactionTrendMs: 0,
       lastUpdated: Date.now()
     };
   }
@@ -57,20 +57,24 @@ const computeSummary = (entries: RoundTelemetryEntry[]): SessionSummary => {
 };
 
 const sanitizeDifficulty = (difficulty: DifficultyLevel): DifficultyLevel => {
-  const allowed: DifficultyLevel[] = ['lv1', 'lv2', 'lv3', 'lv4'];
+  const allowed: DifficultyLevel[] = ['lv1', 'lv2', 'lv3', 'lv4', 'lv5', 'lv6'];
   return allowed.includes(difficulty) ? difficulty : 'lv1';
 };
 
+// ✅ 修正版ここから
 export const createTelemetryStore = (): TelemetryStore => {
   const baseStore = createStore<TelemetryState>()(
-    persist(
-      () => ({ entries: [] }),
+    persist<TelemetryState>(
+      (set, get) => ({
+        entries: []
+      }),
       {
         name: 'dekita-telemetry',
         partialize: (state) => ({ entries: state.entries.slice(-MAX_ENTRIES) })
       }
     )
   );
+  // ✅ 修正版ここまで
 
   const record = (entry: RoundTelemetryEntry) => {
     baseStore.setState((state) => {
@@ -89,7 +93,10 @@ export const createTelemetryStore = (): TelemetryStore => {
   const summary = () => computeSummary(baseStore.getState().entries);
 
   const summaryForGame = (gameId: GameId, limit = 30) => {
-    const entries = baseStore.getState().entries.filter((entry) => entry.gameId === gameId).slice(-limit);
+    const entries = baseStore
+      .getState()
+      .entries.filter((entry) => entry.gameId === gameId)
+      .slice(-limit);
     return computeSummary(entries);
   };
 

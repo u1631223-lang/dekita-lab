@@ -135,7 +135,11 @@ export const SessionProvider = ({ children }: SessionProviderProps) => {
         setRoundState(state);
       }
     });
-    return unsubscribe;
+
+    // ✅ cleanup関数に変更
+    return () => {
+      unsubscribe();
+    };
   }, [machineRef]);
 
   useEffect(() => {
@@ -159,7 +163,12 @@ export const SessionProvider = ({ children }: SessionProviderProps) => {
       return;
     }
     const module = resolveModule(currentRound.gameId);
-    const normalized = module.evaluate({ state: roundState, input: result });
+    // ✅ unknown回避
+    const normalized = module.evaluate({ state: roundState, input: result }) as {
+      success: boolean;
+      reactionTimeMs: number;
+      hintsUsed: number;
+    };
 
     telemetryStoreRef.current.record({
       gameId: currentRound.gameId,
@@ -178,11 +187,14 @@ export const SessionProvider = ({ children }: SessionProviderProps) => {
     setCurrentStats({ gameId: currentRound.gameId, summary: perGame });
 
     if (normalized.success) {
+      // ✅ lv5, lv6追加
       const difficultyBonus: Record<DifficultyLevel, number> = {
         lv1: 1,
         lv2: 2,
         lv3: 3,
-        lv4: 4
+        lv4: 4,
+        lv5: 5,
+        lv6: 6
       };
       const baseStars = difficultyBonus[currentRound.difficulty] ?? 1;
       const hintBonus = normalized.hintsUsed === 0 ? 1 : 0;
@@ -247,7 +259,7 @@ export const SessionProvider = ({ children }: SessionProviderProps) => {
     machineRef.current.returnToHub();
   };
 
-const value = useMemo<SessionControllerValue>(() => ({
+  const value = useMemo<SessionControllerValue>(() => ({
     stage,
     activeGame,
     currentDifficulty,
