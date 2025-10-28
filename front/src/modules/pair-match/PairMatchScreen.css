@@ -49,7 +49,7 @@
 
 .pair-grid {
   display: grid;
-  gap: 0.6rem;
+  gap: 0.9rem;
   justify-items: center;
   align-content: start;
 }

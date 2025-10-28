@@ -1,11 +1,11 @@
 .pair-card {
-  width: min(140px, 20vw);
+  width: min(160px, 24vw);
   aspect-ratio: 3 / 4;
   border-radius: 16px;
   border: none;
   background: linear-gradient(180deg, #ffffff 0%, #f4f7ff 100%);
   box-shadow: 0 8px 16px rgba(95, 108, 255, 0.2);
-  font-size: clamp(2rem, 6vw, 2.8rem);
+  font-size: clamp(2.2rem, 6vw, 3rem);
   display: grid;
   place-items: center;
   cursor: pointer;
@@ -46,7 +46,7 @@
 
 @media (max-width: 600px) {
   .pair-card {
-    width: min(120px, 30vw);
-    font-size: clamp(1.6rem, 8vw, 2.4rem);
+    width: min(140px, 36vw);
+    font-size: clamp(1.8rem, 8vw, 2.6rem);
   }
 }

@@ -8,6 +8,11 @@ export default defineConfig({
     VitePWA({
       registerType: 'prompt',
       includeAssets: ['favicon.svg'],
+      minify: false,
+      workbox: {
+        // Disable Terser minification to avoid the current rollup-plugin-terser crash during SW bundling
+        mode: 'development'
+      },
       manifest: {
         name: 'Dekita Lab',
         short_name: 'Dekita',

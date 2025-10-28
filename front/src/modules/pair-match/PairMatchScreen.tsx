@@ -55,13 +55,15 @@ export const PairMatchScreen = () => {
   }, [currentRound?.roundId, pairState, lastRecommendation?.provideHint, config, shouldAutoHide, growthPhase]);
 
   const revealAll = (duration: number | null) => {
-    setLockBoard(true);
-    setCards((prev) => prev.map((card) => ({ ...card, revealed: true })));
     if (duration === null) {
-      reactionRef.current = performance.now();
+      setCards((prev) => prev.map((card) => ({ ...card, revealed: card.matched })));
       setLockBoard(false);
+      reactionRef.current = performance.now();
       return;
     }
+
+    setLockBoard(true);
+    setCards((prev) => prev.map((card) => ({ ...card, revealed: true })));
     window.setTimeout(() => {
       setCards((prev) => prev.map((card) => ({ ...card, revealed: card.matched })));
       setLockBoard(false);
@@ -171,7 +173,7 @@ export const PairMatchScreen = () => {
       <div className="pair-grid-wrapper">
         <section
           className="pair-grid"
-          style={{ gridTemplateColumns: `repeat(${config?.columns ?? 3}, minmax(72px, 1fr))` }}
+          style={{ gridTemplateColumns: `repeat(${config?.columns ?? 3}, minmax(140px, 1fr))` }}
         >
           {cards.map((card) => (
             <PairCardComponent

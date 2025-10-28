@@ -55,18 +55,19 @@
 .rhythm-pattern {
   display: flex;
   justify-content: center;
-  gap: 1rem;
-  padding: 1rem;
+  gap: 1.2rem;
+  padding: 1.2rem;
+  flex-wrap: wrap;
 }
 
 .rhythm-beat {
-  width: 72px;
-  height: 72px;
-  border-radius: 20px;
+  width: min(150px, 24vw);
+  aspect-ratio: 1;
+  border-radius: 26px;
   background: #ffffff;
   display: grid;
   place-items: center;
-  font-size: 2.3rem;
+  font-size: clamp(2.2rem, 6vw, 3.2rem);
   box-shadow: 0 10px 20px rgba(255, 123, 84, 0.25);
   transition: transform 150ms ease, box-shadow 150ms ease;
 }
@@ -82,18 +83,18 @@
 
 .rhythm-buttons {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1.2rem;
 }
 
 .rhythm-button {
   border: none;
-  border-radius: 28px;
+  border-radius: 30px;
   background: linear-gradient(135deg, #5f6cff 0%, #8f9dff 100%);
-  padding: 1.5rem 1rem;
-  font-size: 2.5rem;
+  padding: clamp(1.2rem, 3vw, 1.8rem) 1.2rem;
+  font-size: clamp(2.4rem, 6.5vw, 3.4rem);
   color: #ffffff;
-  box-shadow: 0 12px 24px rgba(95, 108, 255, 0.35);
+  box-shadow: 0 16px 30px rgba(95, 108, 255, 0.35);
   cursor: pointer;
   transition: transform 120ms ease, box-shadow 120ms ease;
 }
@@ -115,5 +116,15 @@
 
   .rhythm-pattern {
     gap: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .rhythm-pattern {
+    gap: 1.8rem;
+  }
+
+  .rhythm-beat {
+    width: 160px;
   }
 }
