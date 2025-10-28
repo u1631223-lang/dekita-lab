@@ -141,8 +141,9 @@ export const createDeck = (size: number, randomizer: ControlledRandomizer): Card
 export const canPlayCard = (card: Card, pileCard: Card | null): boolean => {
   if (!pileCard) return true;
 
-  // 色が同じか、数値が±1以内なら出せる
+  // 色が同じか、数値が同じ、または±1以内なら出せる
   if (card.color === pileCard.color) return true;
+  if (card.value === pileCard.value) return true;
   if (Math.abs(card.value - pileCard.value) === 1) return true;
 
   return false;

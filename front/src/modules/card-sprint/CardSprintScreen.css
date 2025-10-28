@@ -25,6 +25,44 @@
   position: relative;
 }
 
+.card-sprint-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem 0;
+  gap: 0.75rem;
+}
+
+.card-sprint-exit {
+  border: none;
+  background: rgba(0, 0, 0, 0.35);
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.card-sprint-exit:active,
+.card-sprint-exit:hover {
+  transform: scale(1.05);
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.card-sprint-instruction {
+  flex: 1;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.card-sprint-placeholder {
+  width: 90px;
+}
+
 /* AIエリア */
 .card-sprint-ai-area {
   display: flex;
@@ -62,11 +100,28 @@
   transition: all 0.2s ease;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   user-select: none;
+  touch-action: none;
 }
 
 .card-sprint-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.card-sprint-card.dragging-hidden {
+  visibility: hidden;
+}
+
+.card-sprint-drag-ghost {
+  position: fixed;
+  width: 80px;
+  height: 110px;
+  border-radius: 8px;
+  pointer-events: none;
+  box-shadow: 0 16px 28px rgba(0, 0, 0, 0.35);
+  transform: scale(1.05);
+  transition: none;
+  z-index: 2000;
 }
 
 .card-sprint-card.selected {
@@ -155,6 +210,13 @@
   border-color: gold;
   background: rgba(255, 215, 0, 0.2);
   box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+.card-sprint-pile.drop-target {
+  border-color: #63b3ed;
+  background: rgba(99, 179, 237, 0.35);
+  box-shadow: 0 0 24px rgba(99, 179, 237, 0.6);
+  transform: scale(1.05);
 }
 
 .card-sprint-pile .card-sprint-card {

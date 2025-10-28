@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import type { PointerEvent as ReactPointerEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSessionController } from '@app/session/SessionProvider';
 import { useAudioCue } from '@ui/hooks/useAudioCue';
@@ -22,11 +23,26 @@ export const CardSprintScreen = () => {
   const [feedback, setFeedback] = useState<'player' | 'ai' | 'draw' | null>(null);
   const [hintsUsed, setHintsUsed] = useState(0);
   const [showHint, setShowHint] = useState(false);
-  const [draggedCardIndex, setDraggedCardIndex] = useState<number | null>(null);
+  const [dragState, setDragState] = useState<{
+    index: number;
+    card: Card;
+    x: number;
+    y: number;
+    startX: number;
+    startY: number;
+    offsetX: number;
+    offsetY: number;
+    pointerId: number;
+    isDragging: boolean;
+  } | null>(null);
+  const [dropTarget, setDropTarget] = useState<'A' | 'B' | null>(null);
 
   const reactionRef = useRef(performance.now());
   const aiTimerRef = useRef<number | null>(null);
   const gameTimerRef = useRef<number | null>(null);
+  const pileARef = useRef<HTMLDivElement | null>(null);
+  const pileBRef = useRef<HTMLDivElement | null>(null);
+  const skipClickRef = useRef(false);
 
   // 初期化
   useEffect(() => {
@@ -54,6 +70,46 @@ export const CardSprintScreen = () => {
       if (gameTimerRef.current) clearTimeout(gameTimerRef.current);
     };
   }, [currentRound?.roundId, sprintState]);
+
+  // 停滞時に場札を更新（スピードのルールに合わせる）
+  useEffect(() => {
+    if (!gameState || !sprintState) return;
+
+    const playerMoves = findPlayableCards(gameState.playerHand, gameState.pileA, gameState.pileB).length;
+    const aiMoves = findPlayableCards(gameState.aiHand, gameState.pileA, gameState.pileB).length;
+
+    if (playerMoves > 0 || aiMoves > 0) {
+      return;
+    }
+    if (gameState.deck.length === 0) {
+      return;
+    }
+
+    let updated = false;
+    setGameState((prev) => {
+      if (!prev || prev.deck.length === 0) return prev;
+      const updatedDeck = [...prev.deck];
+      const nextPileA = updatedDeck.shift() ?? null;
+      const nextPileB = updatedDeck.shift() ?? null;
+
+      if (!nextPileA && !nextPileB) {
+        return prev;
+      }
+
+      updated = true;
+      return {
+        ...prev,
+        deck: updatedDeck,
+        pileA: nextPileA ?? prev.pileA,
+        pileB: nextPileB ?? prev.pileB,
+        lastMoveTime: Date.now()
+      };
+    });
+
+    if (updated) {
+      play('tap');
+    }
+  }, [gameState, sprintState, play]);
 
   // AIの行動ループ
   const startAILoop = () => {
@@ -126,6 +182,11 @@ export const CardSprintScreen = () => {
   const handleCardClick = (index: number) => {
     if (!gameState || !sprintState || feedback) return;
 
+    if (skipClickRef.current) {
+      skipClickRef.current = false;
+      return;
+    }
+
     const card = gameState.playerHand[index];
     const canPlayA = canPlayCard(card, gameState.pileA);
     const canPlayB = canPlayCard(card, gameState.pileB);
@@ -138,8 +199,19 @@ export const CardSprintScreen = () => {
     setSelectedCardIndex(index);
   };
 
-  // ドラッグ開始
-  const handleDragStart = (e: React.DragEvent, index: number) => {
+  const determineDropTarget = (clientX: number, clientY: number): 'A' | 'B' | null => {
+    const isWithin = (element: HTMLDivElement | null) => {
+      if (!element) return false;
+      const rect = element.getBoundingClientRect();
+      return clientX >= rect.left && clientX <= rect.right && clientY >= rect.top && clientY <= rect.bottom;
+    };
+
+    if (isWithin(pileARef.current)) return 'A';
+    if (isWithin(pileBRef.current)) return 'B';
+    return null;
+  };
+
+  const handleCardPointerDown = (event: ReactPointerEvent<HTMLDivElement>, index: number) => {
     if (!gameState || !sprintState || feedback) return;
 
     const card = gameState.playerHand[index];
@@ -147,51 +219,112 @@ export const CardSprintScreen = () => {
     const canPlayB = canPlayCard(card, gameState.pileB);
 
     if (!canPlayA && !canPlayB) {
-      e.preventDefault();
       play('error');
       return;
     }
 
-    setDraggedCardIndex(index);
-    e.dataTransfer.effectAllowed = 'move';
-    e.dataTransfer.setData('text/plain', index.toString());
+    const element = event.currentTarget;
+    const rect = element.getBoundingClientRect();
+
+    skipClickRef.current = false;
+    setSelectedCardIndex(index);
+    element.setPointerCapture(event.pointerId);
+    event.preventDefault();
+
+    setDragState({
+      index,
+      card,
+      x: event.clientX,
+      y: event.clientY,
+      startX: event.clientX,
+      startY: event.clientY,
+      offsetX: event.clientX - rect.left,
+      offsetY: event.clientY - rect.top,
+      pointerId: event.pointerId,
+      isDragging: false
+    });
+    setDropTarget(null);
   };
 
-  // ドラッグ終了
-  const handleDragEnd = () => {
-    setDraggedCardIndex(null);
-  };
+  const handleCardPointerMove = (event: ReactPointerEvent<HTMLDivElement>, index: number) => {
+    if (!dragState || dragState.index !== index) return;
 
-  // ドロップ許可
-  const handleDragOver = (e: React.DragEvent, pile: 'A' | 'B') => {
-    if (!gameState || draggedCardIndex === null || feedback) return;
+    const nextX = event.clientX;
+    const nextY = event.clientY;
+    const distance = Math.hypot(nextX - dragState.startX, nextY - dragState.startY);
+    const isDragging = dragState.isDragging || distance > 6;
+    const updatedState = {
+      ...dragState,
+      x: nextX,
+      y: nextY,
+      isDragging
+    };
 
-    const card = gameState.playerHand[draggedCardIndex];
-    const targetCard = pile === 'A' ? gameState.pileA : gameState.pileB;
+    setDragState(updatedState);
+    event.preventDefault();
 
-    if (canPlayCard(card, targetCard)) {
-      e.preventDefault();
-      e.dataTransfer.dropEffect = 'move';
-    }
-  };
-
-  // ドロップ処理
-  const handleDrop = (e: React.DragEvent, pile: 'A' | 'B') => {
-    e.preventDefault();
-    if (!gameState || !sprintState || draggedCardIndex === null || feedback) return;
-
-    const card = gameState.playerHand[draggedCardIndex];
-    const targetCard = pile === 'A' ? gameState.pileA : gameState.pileB;
-
-    if (!canPlayCard(card, targetCard)) {
-      play('error');
-      setDraggedCardIndex(null);
+    if (!isDragging || !gameState) {
+      setDropTarget(null);
       return;
     }
 
-    // カードを場に出す処理（handlePileClickと同じロジック）
-    playCardToPile(draggedCardIndex, pile);
-    setDraggedCardIndex(null);
+    const target = determineDropTarget(nextX, nextY);
+    if (!target) {
+      setDropTarget(null);
+      return;
+    }
+
+    const targetCard = target === 'A' ? gameState.pileA : gameState.pileB;
+    if (canPlayCard(updatedState.card, targetCard)) {
+      setDropTarget(target);
+    } else {
+      setDropTarget(null);
+    }
+  };
+
+  const handleCardPointerUp = (event: ReactPointerEvent<HTMLDivElement>, index: number) => {
+    if (!dragState || dragState.index !== index) return;
+
+    const currentDrag = dragState;
+    setDragState(null);
+    setDropTarget(null);
+
+    event.currentTarget.releasePointerCapture(currentDrag.pointerId);
+    event.preventDefault();
+
+    if (!currentDrag.isDragging) {
+      return;
+    }
+
+    skipClickRef.current = true;
+
+    if (!gameState) return;
+
+    const drop = determineDropTarget(event.clientX, event.clientY);
+    if (!drop) {
+      play('error');
+      return;
+    }
+
+    const targetCard = drop === 'A' ? gameState.pileA : gameState.pileB;
+    if (!canPlayCard(currentDrag.card, targetCard)) {
+      play('error');
+      return;
+    }
+
+    const resolvedIndex = gameState.playerHand.findIndex((handCard) => handCard.id === currentDrag.card.id);
+    if (resolvedIndex === -1) {
+      return;
+    }
+
+    playCardToPile(resolvedIndex, drop);
+  };
+
+  const handleCardPointerCancel = (event: ReactPointerEvent<HTMLDivElement>, index: number) => {
+    if (!dragState || dragState.index !== index) return;
+    event.currentTarget.releasePointerCapture(dragState.pointerId);
+    setDragState(null);
+    setDropTarget(null);
   };
 
   // カードを場に出す共通処理
@@ -284,6 +417,13 @@ export const CardSprintScreen = () => {
 
   return (
     <div className="card-sprint-screen">
+      <header className="card-sprint-header">
+        <button type="button" className="card-sprint-exit" onClick={endSession}>
+          {t('actions.back', 'もどる')}
+        </button>
+        <p className="card-sprint-instruction">{t('cardSprint.goal', 'まんなかのカードにつながる かーどを だそう！')}</p>
+        <span className="card-sprint-placeholder" aria-hidden="true" />
+      </header>
       <GameHud />
 
       <div className="card-sprint-game">
@@ -302,7 +442,8 @@ export const CardSprintScreen = () => {
         {/* 場札エリア */}
         <div className="card-sprint-piles">
           <div
-            className={`card-sprint-pile ${selectedCardIndex !== null && canPlayCard(gameState.playerHand[selectedCardIndex], gameState.pileA) ? 'playable' : ''}`}
+            ref={pileARef}
+            className={`card-sprint-pile ${selectedCardIndex !== null && canPlayCard(gameState.playerHand[selectedCardIndex], gameState.pileA) ? 'playable' : ''} ${dropTarget === 'A' ? 'drop-target' : ''}`}
             onClick={() => handlePileClick('A')}
           >
             {gameState.pileA ? renderCard(gameState.pileA) : <div className="card-empty">A</div>}
@@ -318,7 +459,8 @@ export const CardSprintScreen = () => {
           </div>
 
           <div
-            className={`card-sprint-pile ${selectedCardIndex !== null && canPlayCard(gameState.playerHand[selectedCardIndex], gameState.pileB) ? 'playable' : ''}`}
+            ref={pileBRef}
+            className={`card-sprint-pile ${selectedCardIndex !== null && canPlayCard(gameState.playerHand[selectedCardIndex], gameState.pileB) ? 'playable' : ''} ${dropTarget === 'B' ? 'drop-target' : ''}`}
             onClick={() => handlePileClick('B')}
           >
             {gameState.pileB ? renderCard(gameState.pileB) : <div className="card-empty">B</div>}
@@ -329,16 +471,44 @@ export const CardSprintScreen = () => {
         <div className="card-sprint-player-area">
           <div className="card-sprint-score">プレイヤー: {gameState.playerScore}</div>
           <div className="card-sprint-hand">
-            {gameState.playerHand.map((card, index) => (
-              <div
-                key={card.id}
-                className={`card-sprint-card ${selectedCardIndex === index ? 'selected' : ''} ${playableIndices.includes(index) ? 'hint-highlight' : ''}`}
-                onClick={() => handleCardClick(index)}
-              >
-                {renderCard(card)}
-              </div>
-            ))}
+            {gameState.playerHand.map((card, index) => {
+              const isDraggingCard = dragState?.index === index && dragState.isDragging;
+              const classes = [
+                'card-sprint-card',
+                selectedCardIndex === index ? 'selected' : '',
+                playableIndices.includes(index) ? 'hint-highlight' : '',
+                isDraggingCard ? 'dragging-hidden' : ''
+              ]
+                .filter(Boolean)
+                .join(' ');
+
+              return (
+                <div
+                  key={card.id}
+                  className={classes}
+                  onClick={() => handleCardClick(index)}
+                  onPointerDown={(event) => handleCardPointerDown(event, index)}
+                  onPointerMove={(event) => handleCardPointerMove(event, index)}
+                  onPointerUp={(event) => handleCardPointerUp(event, index)}
+                  onPointerCancel={(event) => handleCardPointerCancel(event, index)}
+                >
+                  {renderCard(card)}
+                </div>
+              );
+            })}
           </div>
+
+          {dragState?.isDragging && (
+            <div
+              className="card-sprint-card card-sprint-drag-ghost"
+              style={{
+                left: `${dragState.x - dragState.offsetX}px`,
+                top: `${dragState.y - dragState.offsetY}px`
+              }}
+            >
+              {renderCard(dragState.card)}
+            </div>
+          )}
         </div>
 
         {/* フィードバック */}
