@@ -3,6 +3,10 @@ import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
+  base: './', // ✅ ← 相対パス指定（Vercel環境で必須）
+  build: {
+    outDir: 'dist', // ✅ ← front/dist に出力
+  },
   plugins: [
     react(),
     VitePWA({
@@ -10,7 +14,6 @@ export default defineConfig({
       includeAssets: ['favicon.svg'],
       minify: false,
       workbox: {
-        // Disable Terser minification to avoid the current rollup-plugin-terser crash during SW bundling
         mode: 'development'
       },
       manifest: {
