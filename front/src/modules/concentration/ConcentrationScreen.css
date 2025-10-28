@@ -72,6 +72,9 @@
   gap: 0.65rem;
   justify-items: center;
   align-content: start;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  margin: 0 auto;
+  max-width: 1000px;
 }
 
 @media (max-width: 768px) {
@@ -96,6 +99,6 @@
   }
 
   .concentration-grid {
-    grid-template-columns: repeat(auto-fit, minmax(72px, 1fr)) !important;
+    grid-template-columns: repeat(auto-fit, minmax(72px, 1fr));
   }
 }

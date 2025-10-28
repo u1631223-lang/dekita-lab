@@ -26,7 +26,7 @@ export const ShapeBuilderScreen = () => {
   const reactionRef = useRef(performance.now());
 
   const targetCell = cells[step];
-  const previewCount = builderState?.config.autoReveal ? Math.max(1, 3 - phase) : Math.max(0, 2 - phase);
+  const previewCount = builderState?.config.autoReveal ? Math.max(1, 3 - phase) : Math.max(1, 2 - phase);
   const previewCells = useMemo(() => cells.slice(step, step + previewCount).map((cell) => cell.id), [cells, step, previewCount]);
 
   const clearTimer = () => {

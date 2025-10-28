@@ -42,7 +42,7 @@ const buildFallbackPiles = (state: CardSprintGameState): CardSprintGameState => 
 };
 
 export const CardSprintScreen = () => {
-  const { currentRound, recordRound, lastRecommendation, rewardSchedule, endSession, roundState } =
+  const { currentRound, recordRound, rewardSchedule, endSession, roundState } =
     useSessionController();
   const { play } = useAudioCue();
   const { t } = useTranslation();
@@ -203,7 +203,7 @@ export const CardSprintScreen = () => {
         newHand.splice(cardIndex, 1);
 
         // デッキから補充
-        let newDeck = [...gameState.deck];
+        const newDeck = [...gameState.deck];
         if (newDeck.length > 0) {
           newHand.push(newDeck.shift()!);
         }
@@ -485,7 +485,7 @@ export const CardSprintScreen = () => {
         {/* AI手札エリア */}
         <div className="card-sprint-ai-area">
           <div className="card-sprint-hand">
-            {gameState.aiHand.map((card, index) => (
+            {gameState.aiHand.map((card) => (
               <div key={card.id} className="card-sprint-card card-back">
                 🂠
               </div>

@@ -241,10 +241,7 @@ export const ConcentrationScreen = () => {
       <GameHud />
 
       <div className="concentration-grid-wrapper">
-        <section
-          className="concentration-grid"
-          style={{ gridTemplateColumns: `repeat(${config?.columns ?? 4}, minmax(60px, 1fr))` }}
-        >
+        <section className="concentration-grid">
           {cards.map((card) => {
             const suitLabel = t(`concentration.suits.${card.suit}`, card.suit);
             const ariaLabel = t('concentration.cardLabel', {

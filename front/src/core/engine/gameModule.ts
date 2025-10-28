@@ -15,7 +15,7 @@ export interface GameModule<State = unknown, Input = unknown> {
   evaluate: (params: { state: State; input: Input }) => Input;
 }
 
-const registry = new Map<GameId, GameModule<any, any>>();
+const registry = new Map<GameId, GameModule<unknown, unknown>>();
 
 export const registerGameModule = <State, Input>(module: GameModule<State, Input>) => {
   registry.set(module.id, module);

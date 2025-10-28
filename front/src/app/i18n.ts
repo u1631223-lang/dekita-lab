@@ -14,6 +14,7 @@ const resources = {
         cardSprint: 'カードスプリント',
         oldMaid: 'ババぬき',
         shichiNarabe: 'しちならべ',
+        keyboardTyping: 'キーボードタイピング',
         comingSoon: 'じゅんびちゅう',
         settingsButton: 'ほごしゃせってい',
         difficulty: {
@@ -195,6 +196,7 @@ const resources = {
         cardSprint: 'Card Sprint',
         oldMaid: 'Old Maid',
         shichiNarabe: 'Seven Sevens',
+        keyboardTyping: 'Keyboard Typing',
         comingSoon: 'Coming soon',
         settingsButton: 'Caregiver settings',
         difficulty: {

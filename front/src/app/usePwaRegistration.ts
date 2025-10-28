@@ -1,5 +1,6 @@
 /// <reference types="vite-plugin-pwa/client" />
 import { useEffect } from 'react';
+import type { RegisterSWOptions } from 'workbox-window';
 
 let registered = false;
 
@@ -9,7 +10,7 @@ export const usePwaRegistration = () => {
 
     if (typeof window === 'undefined') return;
 
-    void import('virtual:pwa-register').then(({ registerSW }: any) => {
+    void import('virtual:pwa-register').then(({ registerSW }: { registerSW: (options?: RegisterSWOptions) => void }) => {
       registerSW({ immediate: true });
     });
 

@@ -7,6 +7,7 @@ module.exports = {
   },
   extends: [
     'eslint:recommended',
+    'plugin:@typescript-eslint/recommended', // TypeScript推奨ルールを追加
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
     'prettier'

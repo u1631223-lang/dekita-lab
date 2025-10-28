@@ -7,6 +7,7 @@ import { createCardSprintModule } from './card-sprint/module';
 import { createOldMaidModule } from './old-maid/module';
 import { createShichiNarabeModule } from './shichi-narabe/module';
 import { createConcentrationModule } from './concentration/module';
+import { createKeyboardTypingModule } from './keyboard-typing/module';
 
 let registered = false;
 
@@ -22,5 +23,6 @@ export const ensureGameModulesRegistered = () => {
   registerGameModule(createCardSprintModule());
   registerGameModule(createOldMaidModule());
   registerGameModule(createShichiNarabeModule());
+  registerGameModule(createKeyboardTypingModule());
   registered = true;
 };

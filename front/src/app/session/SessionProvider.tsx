@@ -165,7 +165,7 @@ export const SessionProvider = ({ children }: SessionProviderProps) => {
     }
     const module = resolveModule(currentRound.gameId);
     // ✅ unknown回避
-    const normalized = module.evaluate({ state: roundState, input: result }) as any;
+    const normalized = module.evaluate({ state: roundState, input: result });
 
     telemetryStoreRef.current.record({
       gameId: currentRound.gameId,
