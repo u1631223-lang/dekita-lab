@@ -1,0 +1,36 @@
+.session-timer {
+  display: grid;
+  gap: 0.25rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: 16px;
+  background: rgba(33, 27, 45, 0.08);
+  color: #2f2a4f;
+  font-size: 0.95rem;
+}
+
+.session-timer__row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.session-timer__label {
+  font-weight: 600;
+}
+
+.session-timer__value {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.session-timer__reminder {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #ff7b54;
+  font-weight: 600;
+}
+
+.session-timer--reminder {
+  background: rgba(255, 123, 84, 0.18);
+  box-shadow: 0 8px 18px rgba(255, 123, 84, 0.25);
+}

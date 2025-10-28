@@ -1,0 +1,119 @@
+.rhythm-screen {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background: linear-gradient(180deg, #ffe6f7 0%, #ffffff 100%);
+}
+
+.rhythm-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.rhythm-exit,
+.rhythm-hint {
+  border: none;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  padding: 0.65rem 1.4rem;
+  background: #5f6cff;
+  color: #ffffff;
+  font-weight: 700;
+  box-shadow: 0 10px 20px rgba(95, 108, 255, 0.25);
+}
+
+.rhythm-hint:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.rhythm-status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 1.1rem;
+  color: #4b3f72;
+}
+
+.rhythm-feedback {
+  font-weight: 700;
+}
+
+.rhythm-feedback--success {
+  color: #16a34a;
+}
+
+.rhythm-feedback--miss {
+  color: #ef4444;
+}
+
+.rhythm-pattern {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.rhythm-beat {
+  width: 72px;
+  height: 72px;
+  border-radius: 20px;
+  background: #ffffff;
+  display: grid;
+  place-items: center;
+  font-size: 2.3rem;
+  box-shadow: 0 10px 20px rgba(255, 123, 84, 0.25);
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+.rhythm-beat--active {
+  transform: scale(1.08);
+  box-shadow: 0 12px 28px rgba(95, 108, 255, 0.3);
+}
+
+.rhythm-beat--played {
+  opacity: 0.6;
+}
+
+.rhythm-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+}
+
+.rhythm-button {
+  border: none;
+  border-radius: 28px;
+  background: linear-gradient(135deg, #5f6cff 0%, #8f9dff 100%);
+  padding: 1.5rem 1rem;
+  font-size: 2.5rem;
+  color: #ffffff;
+  box-shadow: 0 12px 24px rgba(95, 108, 255, 0.35);
+  cursor: pointer;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+.rhythm-button:active {
+  transform: scale(0.96);
+  box-shadow: 0 8px 18px rgba(95, 108, 255, 0.4);
+}
+
+.rhythm-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+@media (min-width: 768px) {
+  .rhythm-screen {
+    padding: 3rem 4rem;
+  }
+
+  .rhythm-pattern {
+    gap: 1.5rem;
+  }
+}

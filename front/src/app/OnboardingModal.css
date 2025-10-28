@@ -1,0 +1,111 @@
+.onboarding-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(33, 27, 45, 0.6);
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  z-index: 50;
+}
+
+.onboarding-card {
+  width: min(640px, 100%);
+  background: linear-gradient(180deg, #ffffff 0%, #f9f2ff 100%);
+  border-radius: 28px;
+  box-shadow: 0 24px 48px rgba(33, 27, 45, 0.35);
+  padding: 2.5rem 2rem;
+  display: grid;
+  gap: 2rem;
+}
+
+.onboarding-card__header {
+  text-align: center;
+  color: #3a2f6d;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.onboarding-card__header h2 {
+  margin: 0;
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+}
+
+.onboarding-card__header p {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.onboarding-card__header small {
+  font-size: 0.85rem;
+  color: #6d67a5;
+}
+
+.onboarding-card__settings {
+  display: grid;
+  gap: 1rem;
+  background: rgba(95, 108, 255, 0.08);
+  padding: 1.2rem 1rem;
+  border-radius: 18px;
+}
+
+.onboarding-card__settings h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #3a2f6d;
+}
+
+.onboarding-setting {
+  display: grid;
+  gap: 0.4rem;
+  color: #2f2a4f;
+  font-size: 0.95rem;
+}
+
+.onboarding-setting input[type='range'] {
+  width: 100%;
+}
+
+.onboarding-setting__value {
+  font-weight: 600;
+}
+
+.onboarding-setting--toggle {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.onboarding-setting--toggle label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 600;
+}
+
+.onboarding-card__footer {
+  display: flex;
+  justify-content: center;
+  gap: 0.8rem;
+}
+
+.onboarding-card__footer button {
+  border: none;
+  border-radius: 999px;
+  padding: 0.7rem 1.8rem;
+  background: #5f6cff;
+  color: #ffffff;
+  font-weight: 700;
+  box-shadow: 0 12px 24px rgba(95, 108, 255, 0.28);
+  cursor: pointer;
+}
+
+.onboarding-reset {
+  background: #ff7b54;
+  box-shadow: 0 12px 24px rgba(255, 123, 84, 0.28);
+}
+
+@media (min-width: 720px) {
+  .onboarding-card__settings {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

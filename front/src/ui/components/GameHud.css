@@ -1,0 +1,41 @@
+.game-hud {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.75rem;
+  margin: 0 0 1.25rem;
+}
+
+.game-hud__metric {
+  background: rgba(95, 108, 255, 0.1);
+  border-radius: 16px;
+  padding: 0.9rem 1rem;
+  display: grid;
+  gap: 0.35rem;
+  text-align: center;
+  color: #3a2f6d;
+}
+
+.game-hud__metric--complete {
+  background: linear-gradient(135deg, #ffcf6f 0%, #ff9d45 100%);
+  color: #361f16;
+  box-shadow: 0 12px 24px rgba(255, 155, 69, 0.3);
+}
+
+.game-hud__metric span {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.game-hud__metric strong {
+  font-size: 1.2rem;
+}
+
+.game-hud .session-timer {
+  justify-self: stretch;
+}
+
+@media (max-width: 500px) {
+  .game-hud__metric {
+    padding: 0.8rem;
+  }
+}

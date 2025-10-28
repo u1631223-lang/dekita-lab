@@ -1,0 +1,55 @@
+.pair-screen {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  gap: 1.2rem;
+  padding: 1.5rem;
+  background: linear-gradient(180deg, #f0f9ff 0%, #ffffff 100%);
+  overflow: hidden;
+}
+
+.pair-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.pair-exit,
+.pair-hint {
+  border: none;
+  border-radius: 999px;
+  padding: 0.65rem 1.4rem;
+  font-size: 0.95rem;
+  background: #5f6cff;
+  color: #ffffff;
+  font-weight: 700;
+  box-shadow: 0 10px 20px rgba(95, 108, 255, 0.25);
+}
+
+.pair-hint:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.pair-status {
+  text-align: center;
+  color: #2f3a70;
+  font-size: 1rem;
+  display: grid;
+  gap: 0.35rem;
+  justify-items: center;
+}
+
+.pair-grid-wrapper {
+  overflow: auto;
+  padding-right: 0.5rem;
+  height: 100%;
+}
+
+.pair-grid {
+  display: grid;
+  gap: 0.6rem;
+  justify-items: center;
+  align-content: start;
+}

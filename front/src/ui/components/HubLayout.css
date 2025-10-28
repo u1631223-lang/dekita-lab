@@ -1,0 +1,62 @@
+.hub-layout {
+  min-height: 100vh;
+  padding: 2.5rem 1.5rem 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  background: linear-gradient(180deg, #fff7f0 0%, #ffe7d6 100%);
+}
+
+.hub-layout__header {
+  text-align: center;
+  display: grid;
+  gap: 0.75rem;
+  justify-items: center;
+}
+
+.hub-layout__header h1 {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  color: #5f2a62;
+  margin: 0;
+}
+
+.hub-layout__actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.95rem;
+  color: #4b3f72;
+  background: rgba(95, 108, 255, 0.12);
+  padding: 0.6rem 1rem;
+  border-radius: 999px;
+}
+
+.hub-layout__actions button {
+  border: none;
+  background: #5f6cff;
+  color: #ffffff;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 0.4rem 0.9rem;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(95, 108, 255, 0.25);
+}
+
+.hub-layout__actions button:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 3px;
+}
+
+.hub-layout__grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  width: min(960px, 100%);
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .hub-layout {
+    padding-top: 4rem;
+  }
+}

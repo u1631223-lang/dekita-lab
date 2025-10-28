@@ -1,0 +1,41 @@
+.celebration-overlay {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(15, 23, 42, 0.55);
+  z-index: 70;
+  animation: celebration-fade 250ms ease;
+}
+
+.celebration-card {
+  background: linear-gradient(135deg, #fde68a 0%, #f97316 100%);
+  color: #431407;
+  padding: 2rem 2.6rem;
+  border-radius: 32px;
+  box-shadow: 0 24px 48px rgba(249, 115, 22, 0.35);
+  text-align: center;
+  display: grid;
+  gap: 0.8rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.celebration-icon {
+  font-size: 3rem;
+  filter: drop-shadow(0 8px 12px rgba(249, 115, 22, 0.35));
+}
+
+.celebration-total {
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+@keyframes celebration-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
