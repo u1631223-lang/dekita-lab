@@ -69,7 +69,7 @@ export const OldMaidScreen = () => {
     setTurnIndex(initialState.turnIndex);
     setJokerHolder(initialState.jokerHolderId);
     setDiscardedPairs(initialState.discardedPairs);
-    setPhase(initialState.players[initialState.turnIndex]?.isHuman ? 'player' : 'ai');
+    setPhase('idle');
     setHintUses(0);
     setHintTarget(null);
     setRecentPair(null);

@@ -1,0 +1,218 @@
+.shichi-screen {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.shichi-header {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 12px;
+}
+
+.shichi-exit {
+  border: none;
+  background: #f0f0f5;
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.shichi-status {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.shichi-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.shichi-action {
+  border: none;
+  border-radius: 12px;
+  padding: 10px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  background: #2d6cdf;
+  color: #fff;
+  transition: transform 0.15s ease;
+}
+
+.shichi-action:disabled {
+  background: #bcc3d6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.shichi-action:not(:disabled):hover {
+  transform: translateY(-1px);
+}
+
+.shichi-action--pass {
+  background: #f08b3e;
+}
+
+.shichi-message {
+  min-height: 48px;
+  background: #f8fbff;
+  border: 1px solid #d0e1ff;
+  border-radius: 16px;
+  padding: 12px 16px;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.shichi-board {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 240px;
+  gap: 16px;
+}
+
+.shichi-field {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+}
+
+.shichi-lane {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #e0e4ef;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.shichi-lane__title {
+  font-weight: 600;
+  font-size: 14px;
+  color: #1b2a52;
+}
+
+.shichi-lane__cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.shichi-card {
+  border-radius: 12px;
+  border: 1px solid #d9deed;
+  background: #fff;
+  min-width: 52px;
+  min-height: 72px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-weight: 600;
+  color: #1b2a52;
+}
+
+.shichi-card__suit {
+  font-size: 18px;
+}
+
+.shichi-card__rank {
+  font-size: 16px;
+}
+
+.shichi-card--hand {
+  min-width: 64px;
+  min-height: 92px;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.shichi-card--hand:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.shichi-card--hand.is-playable {
+  border-color: #4aa150;
+  box-shadow: 0 0 0 2px rgba(74, 161, 80, 0.35);
+}
+
+.shichi-card--hand.is-hinted {
+  animation: shichi-hint-pulse 1.2s ease-in-out;
+}
+
+@keyframes shichi-hint-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(252, 214, 98, 0.6);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(252, 214, 98, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(252, 214, 98, 0);
+  }
+}
+
+.shichi-opponents {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.shichi-opponent {
+  border-radius: 16px;
+  border: 1px solid #e0e4ef;
+  padding: 12px;
+  background: #fdfdff;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.shichi-opponent.is-inactive {
+  opacity: 0.6;
+}
+
+.shichi-opponent__name {
+  font-weight: 600;
+  color: #253462;
+}
+
+.shichi-hand {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  border-top: 1px solid #e3e7f3;
+  padding-top: 12px;
+}
+
+.shichi-hand__empty {
+  font-size: 15px;
+  color: #39497b;
+  padding: 8px 0;
+}
+
+@media (max-width: 860px) {
+  .shichi-board {
+    grid-template-columns: 1fr;
+  }
+
+  .shichi-actions {
+    flex-direction: column;
+  }
+
+  .shichi-action {
+    width: 100%;
+  }
+}

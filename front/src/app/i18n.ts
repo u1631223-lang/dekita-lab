@@ -12,6 +12,8 @@ const resources = {
         sequence: 'キラキラパターン',
         shape: 'かたちビルダー',
         cardSprint: 'カードスプリント',
+        oldMaid: 'ババぬき',
+        shichiNarabe: 'しちならべ',
         comingSoon: 'じゅんびちゅう',
         settingsButton: 'ほごしゃせってい',
         difficulty: {
@@ -64,6 +66,72 @@ const resources = {
       },
       shape: {
         target: 'つぎは この かたち！'
+      },
+      oldMaid: {
+        goal: 'ババを だれかに わたそう！',
+        hint: 'ヒント',
+        jokerWarning: 'ババが まぎれているかも…',
+        victory: 'ばっちり！ ジョーカーを にがしたよ！',
+        defeat: 'ババが のこっちゃった… つぎは うまく かわそう！',
+        turn: '{{name}} の ばんだよ',
+        encore: 'きょうも じょうずに やってみよう！',
+        pairs: 'そろったペア {{count}}',
+        yourHand: 'あなたの てふだ',
+        handEmpty: 'カードは もう ないみたい！',
+        waiting: 'つぎの あいてを まっているよ…',
+        pickFrom: '{{name}} から 1まい えらぼう',
+        drawCard: 'カードを ひく',
+        ai: {
+          sunny: 'たいようちゃん',
+          moon: 'つきくん',
+          comet: 'ほしずきん',
+          rival: 'ライバル'
+        },
+        player: {
+          you: 'あなた'
+        }
+      },
+      shichiNarabe: {
+        goal: '7を だして ならべよう！',
+        passesLeft: 'のこりパス {{count}} かい',
+        handCount: 'てふだ {{count}} まい',
+        hint: 'ヒント',
+        pass: 'パス',
+        passLimit: 'もう パスできないよ',
+        noMoves: 'ならべられるカードが ないよ',
+        needAdjacent: '7の となりだけ ならべられるよ',
+        played: '{{name}} が {{suit}}{{card}} を ならべたよ',
+        passAnnouncement: '{{name}} は パス！ のこり {{remaining}} かい',
+        turnPlayer: 'あなたの ばんだよ',
+        turnAi: '{{name}} の ばんだよ',
+        victory: 'ぜんぶ ならべたよ！',
+        defeat: 'ざんねん！ まだ カードが のこったよ',
+        loading: 'ラウンドを よみこみちゅうです…',
+        field: 'ばのカード',
+        opponents: 'あいてのじょうほう',
+        passesUsed: 'パス {{count}} かい',
+        finished: 'あがったよ！',
+        out: 'パスが いっぱい',
+        yourHand: 'あなたの てふだ',
+        emptyHand: 'カードは もう ないよ！',
+        cardLabel: '{{suit}}{{rank}}',
+        suits: {
+          spade: '♠ スペード',
+          heart: '♥ ハート',
+          diamond: '♦ ダイヤ',
+          club: '♣ クラブ'
+        },
+        player: {
+          you: 'あなた'
+        },
+        ai: {
+          kai: 'カイ',
+          mio: 'ミオ',
+          ren: 'レン',
+          haru: 'ハル',
+          aki: 'アキ',
+          suzu: 'スズ'
+        }
       },
       summary: {
         title: 'きょうの できた！',
@@ -125,6 +193,8 @@ const resources = {
         sequence: 'Sequence Spark',
         shape: 'Shape Builder',
         cardSprint: 'Card Sprint',
+        oldMaid: 'Old Maid',
+        shichiNarabe: 'Seven Sevens',
         comingSoon: 'Coming soon',
         settingsButton: 'Caregiver settings',
         difficulty: {
@@ -177,6 +247,48 @@ const resources = {
       },
       shape: {
         target: 'Place this shape next!'
+      },
+      shichiNarabe: {
+        goal: 'Play cards around the sevens!',
+        passesLeft: '{{count}} passes left',
+        handCount: '{{count}} cards in hand',
+        hint: 'Hint',
+        pass: 'Pass',
+        passLimit: 'No passes remaining',
+        noMoves: 'No playable cards right now',
+        needAdjacent: 'Place cards next to each suit\'s seven.',
+        played: '{{name}} played {{suit}}{{card}}',
+        passAnnouncement: '{{name}} passed ({{remaining}} left).',
+        turnPlayer: 'Your turn',
+        turnAi: "It is {{name}}'s turn",
+        victory: 'Wonderful! You placed every card.',
+        defeat: 'Cards remain in your hand - try again!',
+        loading: 'Loading the round…',
+        field: 'Field cards',
+        opponents: 'Opponents',
+        passesUsed: '{{count}} passes used',
+        finished: 'Finished!',
+        out: 'Out of passes',
+        yourHand: 'Your hand',
+        emptyHand: 'No cards remaining!',
+        cardLabel: '{{suit}}{{rank}}',
+        suits: {
+          spade: 'Spade suit',
+          heart: 'Heart suit',
+          diamond: 'Diamond suit',
+          club: 'Club suit'
+        },
+        player: {
+          you: 'You'
+        },
+        ai: {
+          kai: 'Kai',
+          mio: 'Mio',
+          ren: 'Ren',
+          haru: 'Haru',
+          aki: 'Aki',
+          suzu: 'Suzu'
+        }
       },
       summary: {
         title: 'Today’s Wins',

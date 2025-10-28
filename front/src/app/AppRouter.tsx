@@ -6,6 +6,8 @@ import { ConcentrationScreen } from '@modules/concentration/ConcentrationScreen'
 import { SequenceSparkScreen } from '@modules/sequence-spark/SequenceSparkScreen';
 import { ShapeBuilderScreen } from '@modules/shape-builder/ShapeBuilderScreen';
 import { CardSprintScreen } from '@modules/card-sprint/CardSprintScreen';
+import { OldMaidScreen } from '@modules/old-maid/OldMaidScreen';
+import { ShichiNarabeScreen } from '@modules/shichi-narabe/ShichiNarabeScreen';
 import { SummaryScreen } from './SummaryScreen';
 import { CelebrationOverlay } from '@ui/components/CelebrationOverlay';
 
@@ -32,6 +34,12 @@ export const AppRouter = () => {
     }
     if (activeGame === 'card-sprint') {
       screen = <CardSprintScreen />;
+    }
+    if (activeGame === 'old-maid') {
+      screen = <OldMaidScreen />;
+    }
+    if (activeGame === 'shichi-narabe') {
+      screen = <ShichiNarabeScreen />;
     }
   }
 

@@ -1,4 +1,12 @@
-export type GameId = 'rhythm' | 'pair-match' | 'concentration' | 'sequence-spark' | 'shape-builder' | 'card-sprint';
+export type GameId =
+  | 'rhythm'
+  | 'pair-match'
+  | 'concentration'
+  | 'sequence-spark'
+  | 'shape-builder'
+  | 'card-sprint'
+  | 'old-maid'
+  | 'shichi-narabe';
 
 export type DifficultyLevel = 'lv1' | 'lv2' | 'lv3' | 'lv4' | 'lv5' | 'lv6';
 
