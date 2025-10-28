@@ -1,5 +1,14 @@
 {
-  "buildCommand": "pnpm install && pnpm --filter front build",
-  "installCommand": "pnpm install --shamefully-hoist",
-  "framework": "vite"
+  "version": 2,
+  "builds": [
+    {
+      "src": "front/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "front/dist"
+      }
+    }
+  ],
+  "framework": "vite",
+  "outputDirectory": "front/dist"
 }
