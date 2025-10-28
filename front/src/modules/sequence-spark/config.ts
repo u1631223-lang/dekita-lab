@@ -29,6 +29,16 @@ export const SEQUENCE_SPARK_DIFFICULTY: SequenceSparkDifficultyMap = {
     sequenceLength: [5, 6],
     playbackIntervalMs: 520,
     flashDurationMs: 300
+  },
+  lv5: {
+    sequenceLength: [5, 6],
+    playbackIntervalMs: 520,
+    flashDurationMs: 300
+  },
+  lv6: {
+    sequenceLength: [5, 6],
+    playbackIntervalMs: 520,
+    flashDurationMs: 300
   }
 };
 

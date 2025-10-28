@@ -9,7 +9,7 @@ export const usePwaRegistration = () => {
 
     if (typeof window === 'undefined') return;
 
-    void import('virtual:pwa-register').then(({ registerSW }) => {
+    void import('virtual:pwa-register').then(({ registerSW }: any) => {
       registerSW({ immediate: true });
     });
 

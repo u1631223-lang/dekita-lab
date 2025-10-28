@@ -45,6 +45,20 @@ export const PAIR_MATCH_DIFFICULTY: PairMatchDifficultyMap = {
     maxMistakes: 7,
     revealMs: 1200,
     categories: { animals: 2, numbers: 2, hiragana: 1 }
+  },
+  lv5: {
+    columns: 4,
+    rows: 4,
+    maxMistakes: 7,
+    revealMs: 1200,
+    categories: { animals: 2, numbers: 2, hiragana: 1 }
+  },
+  lv6: {
+    columns: 4,
+    rows: 4,
+    maxMistakes: 7,
+    revealMs: 1200,
+    categories: { animals: 2, numbers: 2, hiragana: 1 }
   }
 };
 

@@ -39,6 +39,18 @@ export const RHYTHM_DIFFICULTY: RhythmDifficultyMap = {
     tempoMs: 480,
     playbackDelayMs: 400,
     categories: { shapes: 2, numbers: 2, hiragana: 2 }
+  },
+  lv5: {
+    patternLength: [6, 7],
+    tempoMs: 480,
+    playbackDelayMs: 400,
+    categories: { shapes: 2, numbers: 2, hiragana: 2 }
+  },
+  lv6: {
+    patternLength: [6, 7],
+    tempoMs: 480,
+    playbackDelayMs: 400,
+    categories: { shapes: 2, numbers: 2, hiragana: 2 }
   }
 };
 

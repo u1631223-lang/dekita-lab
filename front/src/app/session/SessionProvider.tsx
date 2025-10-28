@@ -164,11 +164,7 @@ export const SessionProvider = ({ children }: SessionProviderProps) => {
     }
     const module = resolveModule(currentRound.gameId);
     // ✅ unknown回避
-    const normalized = module.evaluate({ state: roundState, input: result }) as {
-      success: boolean;
-      reactionTimeMs: number;
-      hintsUsed: number;
-    };
+    const normalized = module.evaluate({ state: roundState, input: result }) as any;
 
     telemetryStoreRef.current.record({
       gameId: currentRound.gameId,

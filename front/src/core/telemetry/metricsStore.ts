@@ -25,12 +25,9 @@ const computeSummary = (entries: RoundTelemetryEntry[]): SessionSummary => {
   let longest = 0;
   let current = 0;
   entries.forEach((entry) => {
-    if (entry.success) {
-      current += 1;
-      longest = Math.max(longest, current);
-    } else {
-      current = 0;
-    }
+    if (entry.success) current++;
+    else current = 0;
+    longest = Math.max(longest, current);
   });
 
   const averageReactionTime =
@@ -38,13 +35,9 @@ const computeSummary = (entries: RoundTelemetryEntry[]): SessionSummary => {
 
   const alpha = 0.3;
   let trend = entries[0].reactionTimeMs;
-  entries.forEach((entry, index) => {
-    if (index === 0) {
-      trend = entry.reactionTimeMs;
-    } else {
-      trend = alpha * entry.reactionTimeMs + (1 - alpha) * trend;
-    }
-  });
+  for (let i = 1; i < entries.length; i += 1) {
+    trend = alpha * entries[i].reactionTimeMs + (1 - alpha) * trend;
+  }
 
   return {
     successRate: successes / entries.length,
@@ -65,9 +58,7 @@ const sanitizeDifficulty = (difficulty: DifficultyLevel): DifficultyLevel => {
 export const createTelemetryStore = (): TelemetryStore => {
   const baseStore = createStore<TelemetryState>()(
     persist<TelemetryState>(
-      (set, get) => ({
-        entries: []
-      }),
+      (set) => ({ entries: [] }),
       {
         name: 'dekita-telemetry',
         partialize: (state) => ({ entries: state.entries.slice(-MAX_ENTRIES) })

@@ -41,6 +41,18 @@ export const SHAPE_BUILDER_DIFFICULTY: ShapeBuilderDifficultyMap = {
     rows: 3,
     palette: ['triangle', 'square', 'circle', 'star', 'hex'],
     autoReveal: false
+  },
+  lv5: {
+    columns: 4,
+    rows: 3,
+    palette: ['triangle', 'square', 'circle', 'star', 'hex'],
+    autoReveal: false
+  },
+  lv6: {
+    columns: 4,
+    rows: 3,
+    palette: ['triangle', 'square', 'circle', 'star', 'hex'],
+    autoReveal: false
   }
 };
 
