@@ -4,6 +4,7 @@ import { RhythmTapScreen } from '@modules/rhythm-tap/RhythmTapScreen';
 import { PairMatchScreen } from '@modules/pair-match/PairMatchScreen';
 import { SequenceSparkScreen } from '@modules/sequence-spark/SequenceSparkScreen';
 import { ShapeBuilderScreen } from '@modules/shape-builder/ShapeBuilderScreen';
+import { CardSprintScreen } from '@modules/card-sprint/CardSprintScreen';
 import { SummaryScreen } from './SummaryScreen';
 import { CelebrationOverlay } from '@ui/components/CelebrationOverlay';
 
@@ -24,6 +25,9 @@ export const AppRouter = () => {
     }
     if (activeGame === 'shape-builder') {
       screen = <ShapeBuilderScreen />;
+    }
+    if (activeGame === 'card-sprint') {
+      screen = <CardSprintScreen />;
     }
   }
 

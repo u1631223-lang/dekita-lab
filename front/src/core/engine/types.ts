@@ -1,6 +1,6 @@
-export type GameId = 'rhythm' | 'pair-match';
+export type GameId = 'rhythm' | 'pair-match' | 'sequence-spark' | 'shape-builder' | 'card-sprint';
 
-export type DifficultyLevel = 'lv1' | 'lv2' | 'lv3' | 'lv4';
+export type DifficultyLevel = 'lv1' | 'lv2' | 'lv3' | 'lv4' | 'lv5' | 'lv6';
 
 export type SessionStage = 'hub' | 'game' | 'summary';
 

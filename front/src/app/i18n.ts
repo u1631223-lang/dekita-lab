@@ -10,6 +10,7 @@ const resources = {
         memory: 'ペアペアワールド',
         sequence: 'キラキラパターン',
         shape: 'かたちビルダー',
+        cardSprint: 'カードスプリント',
         comingSoon: 'じゅんびちゅう',
         settingsButton: 'ほごしゃせってい',
         difficulty: {
@@ -107,6 +108,7 @@ const resources = {
         memory: 'Pair Match World',
         sequence: 'Sequence Spark',
         shape: 'Shape Builder',
+        cardSprint: 'Card Sprint',
         comingSoon: 'Coming soon',
         settingsButton: 'Caregiver settings',
         difficulty: {
