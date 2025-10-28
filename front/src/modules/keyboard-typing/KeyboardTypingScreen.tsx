@@ -3,6 +3,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import './KeyboardTypingScreen.css';
 import { GameScreenProps } from '@core/engine';
 import { Ghost, ALPHABET } from './types';
+import { VirtualKeyboard } from '@ui/components/VirtualKeyboard';
 
 // ゲーム画面のメインコンポーネント
 export const KeyboardTypingScreen: React.FC<GameScreenProps> = ({ onRoundComplete }) => {
@@ -20,6 +21,26 @@ export const KeyboardTypingScreen: React.FC<GameScreenProps> = ({ onRoundComplet
     };
     setGhosts((prev) => [...prev, newGhost]);
   }, []);
+
+  // キー入力の処理
+  const handleKeyDown = useCallback((e: { key: string }) => {
+    const pressedKey = e.key.toUpperCase();
+    setGhosts((prevGhosts) => {
+      const targetGhost = prevGhosts.find((g) => g.char === pressedKey);
+      if (targetGhost) {
+        setScore((s) => s + 10); // スコア加算
+        return prevGhosts.filter((g) => g.id !== targetGhost.id); // おばけを消す
+      }
+      return prevGhosts;
+    });
+  }, []);
+
+  // 物理キーボード入力のイベントリスナー
+  useEffect(() => {
+    const physicalKeyDownHandler = (e: KeyboardEvent) => handleKeyDown(e);
+    window.addEventListener('keydown', physicalKeyDownHandler);
+    return () => window.removeEventListener('keydown', physicalKeyDownHandler);
+  }, [handleKeyDown]);
 
   // ゲームループ：おばけを下に落とす
   useEffect(() => {
@@ -39,29 +60,16 @@ export const KeyboardTypingScreen: React.FC<GameScreenProps> = ({ onRoundComplet
     return () => clearInterval(ghostGenerator);
   }, [addGhost]);
 
-  // キー入力の処理
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      const pressedKey = e.key.toUpperCase();
-      setGhosts((prevGhosts) => {
-        const targetGhost = prevGhosts.find((g) => g.char === pressedKey);
-        if (targetGhost) {
-          setScore((s) => s + 10); // スコア加算
-          return prevGhosts.filter((g) => g.id !== targetGhost.id); // おばけを消す
-        }
-        return prevGhosts;
-      });
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
+  // 仮想キーボードからの入力ハンドラ
+  const handleVirtualKeyPress = useCallback((key: string) => {
+    handleKeyDown({ key });
+  }, [handleKeyDown]);
 
   return (
     <div className="keyboard-typing-screen">
       <div className="game-hud">
         <p>Score: {score}</p>
-        <button onClick={() => onRoundComplete({ isCorrect: true, score })}>End Round</button>
+        <button onClick={() => onRoundComplete({ success: true, reactionTimeMs: 0, hintsUsed: 0, endedAt: Date.now() })}>End Round</button>
       </div>
       <div className="game-area">
         {ghosts.map((ghost) => (
@@ -74,6 +82,7 @@ export const KeyboardTypingScreen: React.FC<GameScreenProps> = ({ onRoundComplet
           </div>
         ))}
       </div>
+      <VirtualKeyboard onKeyPress={handleVirtualKeyPress} />
     </div>
   );
 };

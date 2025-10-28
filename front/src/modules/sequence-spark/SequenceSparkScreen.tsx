@@ -16,6 +16,7 @@ export const SequenceSparkScreen = () => {
   const pads = sparkState?.pads ?? [];
   const sequence = sparkState?.sequence ?? [];
   const [input, setInput] = useState<string[]>([]);
+  const [inputFeedback, setInputFeedback] = useState<('correct' | 'incorrect')[]>([]);
   const [activePad, setActivePad] = useState<string | null>(null);
   const [isPlayingBack, setIsPlayingBack] = useState(false);
   const [feedback, setFeedback] = useState<'success' | 'miss' | null>(null);
@@ -69,6 +70,7 @@ export const SequenceSparkScreen = () => {
       return;
     }
     setInput([]);
+    setInputFeedback([]);
     setFeedback(null);
     const needsHint = lastRecommendation?.provideHint ?? false;
     setHintsUsed(needsHint ? 1 : 0);
@@ -98,9 +100,13 @@ const completeRound = (success: boolean) => {
     setInput(nextInput);
     const expected = sequence[nextInput.length - 1];
   if (expected !== padId) {
+    setInputFeedback((prev) => [...prev, 'incorrect']);
     completeRound(false);
     return;
   }
+
+  setInputFeedback((prev) => [...prev, 'correct']);
+
   if (nextInput.length === sequence.length) {
     completeRound(true);
   }
@@ -129,6 +135,18 @@ const completeRound = (success: boolean) => {
           {t('rhythm.hint', 'ヒント')}×{hintsUsed}
         </button>
       </header>
+
+      <div className="sequence-feedback-container">
+        {Array.from({ length: sequence.length }).map((_, i) => {
+          const status = inputFeedback[i];
+          return (
+            <div key={i} className={`feedback-dot ${status ? `feedback-dot--${status}` : ''}`}>
+              {status === 'correct' && '✓'}
+              {status === 'incorrect' && '✗'}
+            </div>
+          );
+        })}
+      </div>
 
       <GameHud />
 
